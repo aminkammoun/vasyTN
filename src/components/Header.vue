@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="#6C6C6C" dense dark>
+    <v-app-bar color="#c70039" dense dark>
       <v-toolbar-title>
         <router-link to="/">let'sGo</router-link>
       </v-toolbar-title>

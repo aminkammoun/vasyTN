@@ -16,6 +16,9 @@ export default {
       return this.$store.state.userProfil;
     },
   },
+  created() {
+    console.log(this.$store.state.userProfil);
+  },
   methods: {
     getTab() {
       console.log(this.userProfil);
