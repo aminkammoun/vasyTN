@@ -1,7 +1,7 @@
 <template>
-  <v-footer dark padless>
-    <v-card class="flex" flat tile>
-      <v-card-title class="teal">
+  <v-footer color="primary" dark padless>
+    <v-card class="flex" flat >
+      <v-card-title class="color:#900c3e">
         <strong class="subheading">Get connected with us on social networks!</strong>
 
         <v-spacer></v-spacer>

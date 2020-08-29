@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-tabs centered>
-      <v-tab @click="tabs = 'chauffeur'">chauffeur</v-tab>
-      <v-tab @click="tabs = 'passenger'">passager</v-tab>
+      <v-tab class="tabsStyle" @click="tabs = 'chauffeur'">chauffeur</v-tab>
+      <v-tab class="tabsStyle" @click="tabs = 'passenger'">passager</v-tab>
     </v-tabs>
 
     <v-container v-if="tabs == 'chauffeur'">
@@ -61,8 +61,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-btn success style="
-    width: 100%;" @click="annoncer">annoncer</v-btn>
+      <v-btn success class="annonceBtn" @click="annoncer">annoncer</v-btn>
     </v-container>
     <v-container v-else>
       <v-textarea outlined label="description" v-model="description"></v-textarea>
@@ -108,8 +107,7 @@
           </v-menu>
         </v-col>
       </v-row>
-      <v-btn success style="
-    width: 100%;" @click="annoncer">annoncer</v-btn>
+      <v-btn class="annonceBtn" @click="annoncer">annoncer</v-btn>
     </v-container>
   </div>
 </template>
@@ -153,3 +151,13 @@ export default {
   },
 };
 </script>
+<style scoped>
+.tabsStyle {
+  color: #5b7ffc;
+}
+
+.annonceBtn {
+  width: 100%;
+  background: #5b7ffc !important;
+}
+</style>

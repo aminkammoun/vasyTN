@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar color="purple" dark flat>
+    <v-toolbar color="#1E1E5D" dark flat>
       <v-text-field
         append-icon="mdi-mic"
         class="mx-4"

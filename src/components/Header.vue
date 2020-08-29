@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-app-bar color="#c70039" dense dark>
+  <div style="heigth:100%;">
+    <v-app-bar color="#1E1E5D" dense dark>
       <v-toolbar-title>
         <router-link to="/">let'sGo</router-link>
       </v-toolbar-title>
@@ -36,12 +36,8 @@ export default {
       return this.$store.state.token;
     },
   },
-  created() {
-    
-  },
-  methods: {
-    
-  },
+  created() {},
+  methods: {},
 };
 </script>
 <style >
