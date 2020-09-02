@@ -8,13 +8,5 @@ export const store = new Vuex.Store({
     token: "",
     userProfil: [],
 
-    clear() {
-      (this.name = ""),
-        (this.familyName = ""),
-        (this.carModel = ""),
-        (this.phone = ""),
-        (this.email = ""),
-        (this.password = "");
-    },
   },
 });
