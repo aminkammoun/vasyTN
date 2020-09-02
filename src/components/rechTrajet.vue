@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="all">
     <v-toolbar color="#1E1E5D" dark flat>
       <v-text-field
         append-icon="mdi-mic"
@@ -100,3 +100,10 @@ export default {
   methods: {},
 };
 </script>
+<style scoped>
+.all{
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+}
+</style>

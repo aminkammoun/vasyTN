@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="all">
     <v-container>
       <h1>Sign up page</h1>
 
@@ -109,5 +109,11 @@ export default {
 <style scoped>
 .logLink {
   color: blue !important;
+}
+.all{
+  padding: 0;
+  margin: 0;
+  margin: 0 auto;
+  min-height: 100%;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div style="heigth:100%;">
-    <v-app-bar color="#1E1E5D" dense dark>
+    <v-app-bar color="#1E1E5D" dark flat>
       <v-toolbar-title>
         <router-link to="/">let'sGo</router-link>
       </v-toolbar-title>
@@ -14,8 +14,8 @@
         <v-icon>mdi-magnify</v-icon>
         <router-link to="/rechercheTrajet">chercher trajet</router-link>
       </v-btn>
-      <v-btn text v-if="!token">
-        <router-link to="/signUp">inscription</router-link>
+      <v-btn text v-if="!token" >
+        <router-link to="/signUp" style="background: green;">inscription</router-link>
       </v-btn>
       <v-btn text v-else>
         <v-icon>mdi-account-multiple-outline</v-icon>
@@ -45,4 +45,5 @@ a {
   color: white !important;
   text-decoration: none !important;
 }
+
 </style>

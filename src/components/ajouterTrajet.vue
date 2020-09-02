@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="all">
     <v-tabs centered>
       <v-tab class="tabsStyle" @click="tabs = 'chauffeur'">chauffeur</v-tab>
       <v-tab class="tabsStyle" @click="tabs = 'passenger'">passager</v-tab>
@@ -152,8 +152,11 @@ export default {
 };
 </script>
 <style scoped>
-.tabsStyle {
-  color: #5b7ffc;
+.all{
+  padding: 0;
+  margin: 0;
+  margin: 0 auto;
+  min-height: 100%;
 }
 
 .annonceBtn {
