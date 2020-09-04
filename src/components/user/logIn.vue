@@ -35,7 +35,9 @@
                   type="password"
                   outlined
                 ></v-text-field>
-                <v-btn color="success" @click="logIn" style=" width:100%;">submit</v-btn>
+                <v-btn color="success" @click="logIn" style=" width:100%;"
+                  >submit</v-btn
+                >
               </v-col>
             </v-row>
             <v-row>
@@ -45,9 +47,11 @@
             </v-row>
           </v-col>
           <v-col cols="12" md="6" class="all">
-            <div style="    position: relative;
+            <div
+              style="    position: relative;
     top: 23%;
-    color: white;">
+    color: white;"
+            >
               <h1>go to inscription page</h1>
               <v-btn
                 rounded

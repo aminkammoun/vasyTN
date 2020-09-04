@@ -32,7 +32,6 @@
                 dense
                 solo
                 clearable
-                
                 append-icon="mdi-map-marker-outline"
                 v-model="arrive"
                 name="arrivé"
@@ -73,19 +72,19 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
-              outlined
-              rounded
+                outlined
+                rounded
                 dense
                 clearable
                 name="places"
                 label="places disponible"
-                id="cotisation"
+                id="places"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
-              outlined
-              rounded
+                outlined
+                rounded
                 dense
                 clearable
                 prepend-icon="mdi-currency-eur"
@@ -158,13 +157,13 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
-              dense
-              rounded
-              outlined
+                dense
+                rounded
+                outlined
                 prepend-icon=""
                 name="places"
                 label="places"
-                id="places"
+                id="places1   "
               ></v-text-field>
             </v-col>
           </v-row>
@@ -199,13 +198,14 @@ export default {
     annoncer() {
       axios
         .post("http://localhost:3000/covoiturage/postCov", {
-          name: this.$store.state.userProfil.name,
-          familyName: this.$store.state.userProfil.familyname,
+          username: this.$store.state.userProfil.username,
+
           type: this.tabs,
           depart: this.depart,
           arrive: this.arrive,
           time: this.time,
           description: this.description,
+          nbrPlace: this.nbrPlace,
           bagage: this.switch1.toString(),
           idUserPoster: this.$store.state.userProfil._id,
         })
