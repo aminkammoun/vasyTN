@@ -1,82 +1,104 @@
 <template>
-  <div class="login-wrap">
-    <div class="login-html">
-      <input id="tab-1" type="radio" name="tab" class="sign-in" checked /><label
-        for="tab-1"
-        class="tab"
-        >Sign In</label
-      >
-      <input id="tab-2" type="radio" name="tab" class="sign-up" /><label
-        for="tab-2"
-        class="tab"
-        >Sign Up</label
-      >
-      <div class="login-form">
-        <div class="sign-in-htm">
-          <div class="group">
-            <label for="user" class="label">Username</label>
-            <input id="loguser" type="text" class="input" v-model="username" />
-          </div>
-          <div class="group">
-            <label for="pass" class="label">Password</label>
-            <input
-              id="logpass"
-              type="password"
-              class="input"
-              data-type="password"
-              v-model="password"
-            />
-          </div>
-          <div class="group">
-            <input id="check" type="checkbox" class="check" checked />
-            <label for="check"
-              ><span class="icon"></span> Keep me Signed in</label
-            >
-          </div>
-          <div class="group">
-            <input type="submit" class="button" value="log in" @click="logIn"/>
-          </div>
-          <div class="hr"></div>
-          <div class="foot-lnk">
-            <a href="#forgot">Forgot Password?</a>
-          </div>
+  <div class="all">
+    <v-row>
+      <v-col cols="12" md="4" class="hidden-sm-and-down">
+        <div class="divDesc">
+          <h1>vasyTN</h1>
+          <p><span></span></p>
         </div>
-        <div class="sign-up-htm">
-          <div class="group">
-            <label for="email" class="label">Email Address</label>
-            <input id="email" type="text" class="input" v-model="email" />
-          </div>
-          <div class="group">
-            <label for="user" class="label">Username</label>
-            <input id="user" type="text" class="input" v-model="username" />
-          </div>
-          <div class="group">
-            <label for="phone" class="label">phone</label>
-            <input id="phone" type="text" class="input" v-model="phone" />
-          </div>
-          <div class="group">
-            <label for="pass" class="label">Password</label>
-            <input
-              id="pass"
-              type="password"
-              class="input"
-              data-type="password"
-              v-model="password"
-            />
-          </div>
+        <img
+          class="imgSvg"
+          src="../../assets/image/user-account-login-1805702-1539388.webp"
+          alt=""
+        />
+      </v-col>
+      <v-col cols="12" md="3"></v-col>
+      <v-col cols="12" md="4">
+        <v-card class="mx-auto">
+          <h1>Welcome</h1>
 
-          <div class="group">
-            <input
-              type="submit"
-              class="button"
-              value="Sign Up"
-              @click="submitted"
-            />
-          </div>
-          <div class="hr"></div>
-        </div>
-      </div>
-    </div>
+          <v-subheader
+            style="text-align: center !important;
+    margin-left: 33%;"
+            >Sign in to your account</v-subheader
+          >
+          <v-row
+            style="margin: 20px;
+   "
+          >
+            <v-col cols="12" md="12">
+              <v-text-field
+                :rules="Rules"
+                required
+                class="inputField"
+                v-model="username"
+                label="username"
+                name="username"
+                id="username"
+                outlined
+              ></v-text-field>
+              <v-text-field
+                :rules="Rules"
+                required
+                class="inputField"
+                v-model="phone"
+                label="phone"
+                name="phone"
+                id="phone"
+                outlined
+              ></v-text-field>
+              <v-text-field
+                :rules="Rules"
+                required
+                class="inputField"
+                v-model="email"
+                label="email"
+                name="email"
+                id="email"
+                outlined
+              ></v-text-field>
+
+              <v-text-field
+                :rules="Rules"
+                required
+                class="inputField"
+                v-model="password"
+                label="password"
+                name="password"
+                id="password"
+                type="password"
+                outlined
+              ></v-text-field>
+              <v-btn
+                color="primary"
+                @click="submitted"
+                style=" width:100%;"
+                x-large
+                >submit</v-btn
+              >
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="12" style="margin-left:35%;">
+              <span
+                >créer un compte...
+                <router-link to="/signUp">ici</router-link></span
+              >
+            </v-col>
+          </v-row>
+          <span class="admin">vasyTN Admin</span>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-snackbar color="error" v-model="snackbar" :timeout="timeout">
+      ce compte est introuvable
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="black" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -84,10 +106,13 @@ import axios from "axios";
 export default {
   data() {
     return {
+      Rules: [(v) => !!v || "champ obligatoire"],
       username: "",
       email: "",
       phone: "",
       password: "",
+      snackbar: false,
+      timeout: 3000,
     };
   },
   methods: {
@@ -100,28 +125,51 @@ export default {
           phone: this.phone,
           password: this.password,
         })
-        .then(this.clear);
+        .then(() => {
+          this.clear;
+          this.$router.push("/logIn");
+        });
     },
     logIn() {
-      axios
-        .post("http://localhost:3000/user/login", {
-          username: this.username,
-          password: this.password,
-        })
-        .then((res) => {
-          this.authData = res.data;
-          this.$store.state.token = this.authData.token;
+      if (this.username == "") {
+        this.emailCheck = true;
+        setTimeout(() => {
+          this.emailCheck = false;
+        }, 3000);
+      }
+      if (this.password == "") {
+        this.passwordCheck = true;
+        setTimeout(() => {
+          this.passwordCheck = false;
+        }, 3000);
+      } else {
+        axios
+          .post("http://localhost:3000/user/login", {
+            username: this.username,
+            password: this.password,
+          })
+          .then((res) => {
+            this.authData = res.data;
+            this.$store.state.token = this.authData.token;
+            localStorage.setItem("token", this.$store.state.token);
+            localStorage.setItem("idUser", this.authData.userId);
+            console.log("okkk");
+            axios
+              .get("http://localhost:3000/user/" + this.authData.userId)
+              .then((res) => {
+                this.$store.state.userProfil = res.data;
 
-          axios
-            .get("http://localhost:3000/user/" + this.authData.userId)
-            .then((res) => {
-              this.$store.state.userProfil = res.data;
-              console.log(this.$store.state.userProfil);
+                localStorage.setItem(
+                  "userProfil",
+                  this.$store.state.userProfil
+                );
+              });
+
+            this.$router.push({
+              name: "home",
             });
-          this.$router.push({
-            name: "home",
           });
-        });
+      }
     },
     clear() {
       (this.username = ""),
@@ -133,175 +181,58 @@ export default {
 };
 </script>
 <style scoped>
-body {
-  margin: 0;
-  color: #6a6f8c;
-  background: #c8c8c8;
-  font: 600 16px/18px "Open Sans", sans-serif;
-}
-*,
-:after,
-:before {
-  box-sizing: border-box;
-}
-.clearfix:after,
-.clearfix:before {
-  content: "";
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-  display: block;
-}
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.login-wrap {
-  width: 100%;
+.inputField {
   margin: auto;
-  max-width: 525px;
-  min-height: 572px;
-  position: relative;
-  background: url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg)
-    no-repeat center;
-  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
-.login-html {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  padding: 90px 70px 50px 70px;
-  background: rgba(40, 57, 101, 0.9);
-}
-.login-html .sign-in-htm,
-.login-html .sign-up-htm {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: absolute;
-  transform: rotateY(180deg);
-  backface-visibility: hidden;
-  transition: all 0.4s linear;
-}
-.login-html .sign-in,
-.login-html .sign-up,
-.login-form .group .check {
-  display: none;
-}
-.login-html .tab,
-.login-form .group .label,
-.login-form .group .button {
-  text-transform: uppercase;
-}
-.login-html .tab {
-  font-size: 22px;
-  margin-right: 15px;
-  padding-bottom: 5px;
-  margin: 0 15px 10px 0;
-  display: inline-block;
-  border-bottom: 2px solid transparent;
-}
-.login-html .sign-in:checked + .tab,
-.login-html .sign-up:checked + .tab {
-  color: #fff;
-  border-color: #1161ee;
-}
-.login-form {
-  min-height: 345px;
-  position: relative;
-  perspective: 1000px;
-  transform-style: preserve-3d;
-}
-.login-form .group {
-  margin-bottom: 15px;
-}
-.login-form .group .label,
-.login-form .group .input,
-.login-form .group .button {
-  width: 100%;
-  color: #fff;
-  display: block;
-}
-.login-form .group .input,
-.login-form .group .button {
-  border: none;
-  padding: 15px 20px;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.1);
-}
-.login-form .group input[data-type="password"] {
-  -webkit-text-security: circle;
-}
-.login-form .group .label {
-  color: #aaa;
-  font-size: 12px;
-}
-.login-form .group .button {
-  background: #1161ee;
-}
-.login-form .group label .icon {
-  width: 15px;
-  height: 15px;
-  border-radius: 2px;
-  position: relative;
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
-}
-.login-form .group label .icon:before,
-.login-form .group label .icon:after {
-  content: "";
-  width: 10px;
-  height: 2px;
-  background: #fff;
-  position: absolute;
-  transition: all 0.2s ease-in-out 0s;
-}
-.login-form .group label .icon:before {
-  left: 3px;
-  width: 5px;
-  bottom: 6px;
-  transform: scale(0) rotate(0);
-}
-.login-form .group label .icon:after {
-  top: 6px;
-  right: 0;
-  transform: scale(0) rotate(0);
-}
-.login-form .group .check:checked + label {
-  color: #fff;
-}
-.login-form .group .check:checked + label .icon {
-  background: #1161ee;
-}
-.login-form .group .check:checked + label .icon:before {
-  transform: scale(1) rotate(45deg);
-}
-.login-form .group .check:checked + label .icon:after {
-  transform: scale(1) rotate(-45deg);
-}
-.login-html
-  .sign-in:checked
-  + .tab
-  + .sign-up
-  + .tab
-  + .login-form
-  .sign-in-htm {
-  transform: rotate(0);
-}
-.login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
-  transform: rotate(0);
+h1 {
+  text-align: center;
 }
 
-.hr {
-  height: 2px;
-  margin: 60px 0 50px 0;
-  background: rgba(255, 255, 255, 0.2);
+.all {
+  width: 100%;
+  height: 76vh;
 }
-.foot-lnk {
+.v-card {
+  width: 100%;
+  position: relative;
+  top: 5%;
+}
+.admin {
+  margin-top: 32px !important;
+  margin-left: 40%;
+
+  font-size: 0.625rem !important;
+  letter-spacing: 0.1666666667em !important;
+  line-height: 1rem;
+  text-transform: uppercase;
+  background-color: WHITE;
+}
+.divDesc {
+  position: relative;
+  left: 43%;
+  top: 15%;
+  margin: -25px 0 0 -25px;
+}
+.divDesc p {
   text-align: center;
+}
+.imgSvg {
+  position: relative;
+  left: 50%;
+}
+p span::before {
+  content: "";
+  animation: profile 5s infinite;
+}
+@keyframes profile {
+  0% {
+    content: "platforme tunisienne de covoiturage";
+  }
+  50% {
+    content: "facilite votre transport";
+  }
+  100% {
+    content: "gagne votre temps ";
+  }
 }
 </style>

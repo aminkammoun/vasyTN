@@ -46,7 +46,10 @@
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                <v-date-picker
+                  v-model="date"
+                  @input="menu2 = false"
+                ></v-date-picker>
               </v-menu>
             </v-col>
             <v-col cols="12" md="3">
@@ -56,27 +59,39 @@
             </v-col>
           </v-row>
           <div class="text-center">
-            <v-sheet
-              class="sheet_style"
-              color="orange lighten-2"
-            >>> annoncer une trajet. clicker ici</v-sheet>
+            <v-sheet class="sheet_style" color="orange lighten-2"
+              >>> annoncer une trajet. clicker ici</v-sheet
+            >
           </div>
         </div>
       </div>
       <v-container grid-list-xs>
         <h1>Allez où vous voulez. D'où vous voulez.</h1>
         <v-row>
-          <v-col cols="12" md="4">
-            <b>pratique</b>
-            <p>Trouvez rapidement un covoiturage ou un bus à proximité parmi les millions de trajets proposés.</p>
-          </v-col>
-          <v-col cols="12" md="4">
+          <transition name="fade-In">
+            <v-col cols="12" md="4" id="liste">
+              <b>pratique</b>
+              <p>
+                Trouvez rapidement un covoiturage ou un bus à proximité parmi
+                les millions de trajets proposés.
+              </p>
+            </v-col>
+          </transition>
+
+          <v-col cols="12" md="4" id="liste">
             <b>facile</b>
-            <p>Trouvez le trajet parfait ! Il vous suffit d’entrer votre adresse exacte, de choisir le voyage qui vous convient le mieux, et de réserver.</p>
+            <p>
+              Trouvez le trajet parfait ! Il vous suffit d’entrer votre adresse
+              exacte, de choisir le voyage qui vous convient le mieux, et de
+              réserver.
+            </p>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="4" id="liste">
             <b>Direct</b>
-            <p>Que vous prévoyiez à l’avance ou réserviez en dernière minute, vous trouverez toujours un tarif avantageux.</p>
+            <p>
+              Que vous prévoyiez à l’avance ou réserviez en dernière minute,
+              vous trouverez toujours un tarif avantageux.
+            </p>
           </v-col>
         </v-row>
       </v-container>
@@ -88,8 +103,8 @@ export default {
   data() {
     return {
       date: new Date().toISOString().substr(0, 10),
-      depart:"",
-      arrive:"",
+      depart: "",
+      arrive: "",
       menu: false,
       modal: false,
       menu2: false,
@@ -140,5 +155,16 @@ export default {
 }
 .sheet_style {
   border-radius: 0px 0px 10px 10px;
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

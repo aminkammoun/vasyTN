@@ -1,17 +1,7 @@
 <template>
   <div class="all">
-    <v-toolbar color="#1E1E5D" dark flat>
-      <v-text-field
-        append-icon="mdi-mic"
-        class="mx-4"
-        flat
-        hide-details
-        label="Search"
-        prepend-inner-icon="mdi-magnify"
-        solo-inverted
-      ></v-text-field>
-
-      <template v-slot:extension>
+    <v-toolbar color="#1E1E5D" dark flat dense>
+      <template>
         <v-tabs centered>
           <v-tab @click="tabs = 'chauffeur'">chauffeur</v-tab>
           <v-tab @click="tabs = 'passenger'">passager</v-tab>
@@ -37,8 +27,11 @@
                   {{ trajet.arrive }}
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >annoncer par {{ trajet.username }}</v-list-item-subtitle
-                >
+                  >annoncer par:
+                  <span @click="getProfilAnonce(index)">
+                    {{ trajet.username }}</span
+                  >
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-card-text>{{ trajet.description }}</v-card-text>
@@ -76,9 +69,11 @@
                   <v-icon>mdi-arrow-right-bold</v-icon>
                   {{ trajet.arrive }}
                 </v-list-item-title>
-                <v-list-item-subtitle>{{
-                  trajet.username
-                }}</v-list-item-subtitle>
+                <v-list-item-subtitle
+                  ><span @click="getProfilAnonce(index)">{{
+                    trajet.username
+                  }}</span>
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-card-text>{{ trajet.description }}</v-card-text>
@@ -99,17 +94,81 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <v-dialog
+      v-model="dialog"
+      persistent
+      :overlay="false"
+      max-width="486px"
+      transition="dialog-transition"
+    >
+      <v-card>
+        <v-card-title class="blue darken-2">
+          profile
+        </v-card-title>
+        <v-container>
+          <v-row class="mx-2">
+            <v-col class="align-center justify-space-between" cols="12">
+              <v-row align="center" class="mr-0">
+                <v-avatar size="40px" class="mx-3">
+                  <img
+                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
+                    alt=""
+                  />
+                </v-avatar>
+                <v-chip
+      class="ma-2"
+      
+    >
+      {{ username }}
+    </v-chip>
+                
+              </v-row>
+            </v-col>
+            <v-col cols="6">
+              <v-icon>mdi-phone</v-icon> Phone: {{ phone }}
+            </v-col>
+            <v-col cols="6">
+              <v-icon>mdi-car</v-icon> voiture: {{ carModel }}
+            </v-col>
+            <v-col cols="6">
+              <v-icon>mdi-smoking</v-icon> Tabac: {{ fumer }}
+            </v-col>
+            <v-col cols="6">
+              <v-icon>mdi-theme-light-dark</v-icon> voiture climatisé:
+              {{ climat }}
+            </v-col>
+            <v-col cols="12">
+              <div class="text-center">
+                <v-rating v-model="rating"></v-rating>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
       tabs: "chauffeur",
       trajetPassenger: [],
       trajetChauffeur: [],
-      userName: "",
+      dialog: false,
+      username: "",
+      phone: "",
+      carModel: "",
+      fumer: "",
+      climat: "",
+      rating: Number,
     };
   },
   created() {
@@ -130,6 +189,47 @@ export default {
           idPoster: this.trajetChauffeur[index],
           idLogger: this.$store.state.userProfil._id,
         });
+      }
+      if (this.tabs == "passenger") {
+        axios.post("http://localhost:3000/reservation/res", {
+          idPoster: this.trajetPassenger[index],
+          idLogger: this.$store.state.userProfil._id,
+        });
+      }
+    },
+    getProfilAnonce(index) {
+      console.log(this.trajetChauffeur[index].idUserPoster);
+      if (this.tabs == "chauffeur") {
+        axios
+          .get(
+            "http://localhost:3000/user/" +
+              this.trajetChauffeur[index].idUserPoster
+          )
+          .then((res) => {
+            // var anounceProfil = res.data;
+            (this.username = res.data.username),
+              (this.phone = res.data.phone),
+              (this.carModel = res.data.carModel),
+              (this.fumer = res.data.fumer),
+              (this.climat = res.data.climat),
+              (this.rating = res.data.rating),
+              (this.dialog = true);
+          });
+      } else {
+        axios
+          .get(
+            "http://localhost:3000/user/" +
+              this.trajetPassenger[index].idUserPoster
+          )
+          .then((res) => {
+            (this.username = res.data.username),
+              (this.phone = res.data.phone),
+              (this.carModel = res.data.carModel),
+              (this.fumer = res.data.fumer),
+              (this.climat = res.data.climat),
+              (this.rating = res.data.rating),
+              (this.dialog = true);
+          });
       }
     },
   },
