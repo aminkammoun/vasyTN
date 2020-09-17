@@ -34,11 +34,13 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-card-text>{{ trajet.description }}</v-card-text>
             <v-card-text>
-              <v-chip>{{ trajet.time }}</v-chip>
-              <v-chip>bagage :{{ trajet.bagage ? "oui" : "non" }}</v-chip>
+              <v-chip small class="mr-1">{{ trajet.time }}</v-chip>
+              <v-chip small>bagage :{{ trajet.bagage ? "oui" : "non" }}</v-chip>
+              <v-chip small class="ml-1">prix :{{ trajet.prix }} TND</v-chip>
             </v-card-text>
+            <v-card-text>{{ trajet.description }}</v-card-text>
+
             <v-card-actions>
               <v-btn
                 text
@@ -116,13 +118,9 @@
                     alt=""
                   />
                 </v-avatar>
-                <v-chip
-      class="ma-2"
-      
-    >
-      {{ username }}
-    </v-chip>
-                
+                <v-chip class="ma-2">
+                  {{ username }}
+                </v-chip>
               </v-row>
             </v-col>
             <v-col cols="6">
@@ -180,6 +178,7 @@ export default {
           this.trajetPassenger.push(res.data[i]);
         }
       }
+      console.log(this.trajetChauffeur);
     });
   },
   methods: {

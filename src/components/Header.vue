@@ -109,7 +109,10 @@ export default {
       localStorage.removeItem("userProfil");
       localStorage.removeItem("token");
       localStorage.removeItem("idUser");
+      
+      this.$router.push({ name: "home" });
       this.$router.go(0);
+      
     },
 
     getWithExpiry(key) {

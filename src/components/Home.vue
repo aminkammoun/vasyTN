@@ -54,7 +54,7 @@
             </v-col>
             <v-col cols="12" md="3">
               <v-btn class="btn_search">
-                <v-icon>mdi-magnify</v-icon>recherche
+                recherche
               </v-btn>
             </v-col>
           </v-row>
@@ -114,6 +114,9 @@ export default {
 };
 </script>
 <style scoped>
+h2 {
+  text-align: center;
+}
 .home_large {
   background-image: url("../assets/image/co.jpeg");
   background-repeat: no-repeat;

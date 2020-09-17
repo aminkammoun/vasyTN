@@ -1,14 +1,13 @@
 <template>
   <div class="all">
     <v-tabs centered>
-      <v-tab  @click="tabs = 'chauffeur'">chauffeur</v-tab>
-      <v-tab  @click="tabs = 'passenger'">passager</v-tab>
+      <v-tab @click="tabs = 'chauffeur'">chauffeur</v-tab>
+      <v-tab @click="tabs = 'passenger'">passager</v-tab>
     </v-tabs>
 
     <v-container v-if="tabs == 'chauffeur'">
       <v-row>
         <v-col cols="12" md="6" class="imgAdd">
-
           <img src="../assets/image/5568701.png" class="imgAdd" />
         </v-col>
 
@@ -85,6 +84,7 @@
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
+                  v-model="places"
                   outlined
                   dense
                   clearable
@@ -97,6 +97,7 @@
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
+                  v-model="cotisation"
                   :rules="Rules"
                   required
                   outlined
@@ -133,10 +134,10 @@
                 <v-text-field
                   :rules="Rules"
                   required
-                  rounded
                   dense
                   outlined
-                  prepend-icon="mdi-map-marker-outline"
+                  clearable
+                  prepend-inner-icon="mdi-map-marker-outline"
                   v-model="depart"
                   name="depart"
                   label="depart"
@@ -147,9 +148,8 @@
                   :rules="Rules"
                   required
                   outlined
-                  rounded
                   dense
-                  prepend-icon="mdi-map-marker-outline"
+                  append-icon="mdi-map-marker-outline"
                   v-model="arrive"
                   name="arrivé"
                   label="arrivé"
@@ -218,6 +218,8 @@ export default {
       menu2: false,
       switch1: true,
       tabs: "chauffeur",
+      cotisation: "",
+      places: "",
     };
   },
   computed: {
@@ -237,11 +239,15 @@ export default {
           time: this.time,
           phone: this.$store.state.userProfil.phone,
           description: this.description,
-          nbrPlace: this.nbrPlace,
+          nbrPlace: this.places,
+          prix: this.cotisation,
           bagage: this.switch1.toString(),
           idUserPoster: this.$store.state.userProfil._id,
         })
-        .then(this.$router.push("/rechercheTrajet"));
+        .then(() => {
+          this.$router.push("/rechercheTrajet");
+          this.$$router.go(0);
+        });
     },
   },
 };

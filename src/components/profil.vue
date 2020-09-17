@@ -255,6 +255,7 @@ export default {
         climat: this.climat,
         rating: this.rating,
       });
+      this.$router.go(0);
     },
     loadPorfil() {
       Axios.get(
@@ -279,7 +280,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.rate{
-   text-align: center !important;
+.rate {
+  text-align: center !important;
 }
 </style>
